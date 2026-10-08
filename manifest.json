@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Moodle+R Helper",
+  "version": "1.0.0",
+  "description": "Moodle+Rの科目ページにシラバスへのリンクと概要を追加する非公式拡張機能",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://lms.ritsumei.ac.jp/*",
+    "https://syllabus.ritsumei.ac.jp/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://lms.ritsumei.ac.jp/*",
+        "https://syllabus.ritsumei.ac.jp/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}
