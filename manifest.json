@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Moodle+R Helper",
-  "version": "1.1.0",
-  "description": "Moodle+Rの科目ページに、シラバスへのリンク・概要と、科目ごとの通知を追加する非公式拡張機能",
+  "version": "1.2.0",
+  "description": "Moodle+Rの科目ページに、シラバスへのリンク・概要、科目ごとの通知、見やすい予定カレンダーを追加する非公式拡張機能",
   "permissions": [
     "storage"
   ],
@@ -22,7 +22,8 @@
       "js": [
         "tabs.js",
         "content.js",
-        "notifications.js"
+        "notifications.js",
+        "calendar.js"
       ]
     }
   ]
