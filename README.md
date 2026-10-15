@@ -55,11 +55,26 @@ Moodle+R の科目ページ（タイトルが `授業コード:授業名` の形
 
 ## デバッグ
 
-動作ログを見たいときは、`content.js` と `background.js` の先頭にある次の行を変更します。
+動作ログを見たいときは、`content/common.js` と `background.js` の先頭にある次の行を変更します。
 
 ```js
 const DEBUG = true;
 ```
+
+## ファイル構成
+
+```
+manifest.json          拡張機能の設定
+background.js          シラバスサイトを別タブで開いて取得する処理
+content/
+  common.js            共通設定（DEBUG とログ）
+  tabs.js              科目ページのタブを管理する共通部品
+  syllabus.js          シラバスのリンク・タブ・検索・読み取り
+  notifications.js     通知ベルと「通知」タブ
+  calendar.js          予定カレンダー（ダッシュボード・「予定」タブ）
+```
+
+`content/` 内のファイルは `manifest.json` に書かれた順に読み込まれます（`common.js` が最初）。ファイルを追加するときは、`manifest.json` の `js` にも追記してください。
 
 ## 今後の予定
 
