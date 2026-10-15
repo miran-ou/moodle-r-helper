@@ -418,297 +418,64 @@ function addSyllabusSearchFallback(
 
 function addSyllabusTab(url) {
 
-  if (
-    document.querySelector(
-      ".my-syllabus-tab"
-    )
-  ) {
+  if (document.querySelector(".my-syllabus-panel")) {
     return;
   }
-
-
-  const navTabs =
-    document.querySelector(
-      "ul.nav.more-nav.nav-tabs"
-    );
-
-  if (!navTabs) {
-
-    log(
-      "タブ一覧が見つかりません"
-    );
-
-    return;
-  }
-
-
-  const moreButton =
-    navTabs.querySelector(
-      '[data-region="morebutton"]'
-    );
-
-  if (!moreButton) {
-
-    log(
-      "「さらに」が見つかりません"
-    );
-
-    return;
-  }
-
-
-  const tab =
-    document.createElement("li");
-
-  tab.className =
-    "nav-item my-syllabus-tab";
-
-
-  const link =
-    document.createElement("a");
-
-  link.href = "#";
-
-  link.className =
-    "nav-link";
-
-  link.textContent =
-    "シラバス情報";
-
-
-  tab.appendChild(link);
-
-
-  navTabs.insertBefore(
-    tab,
-    moreButton
-  );
-
-
-  const panel =
-    document.createElement("div");
-
-  panel.className =
-    "my-syllabus-panel";
-
-  panel.style.display =
-    "none";
-
-  panel.style.marginTop =
-    "20px";
-
-  panel.style.padding =
-    "20px";
-
-  panel.style.border =
-    "1px solid #ddd";
-
-  panel.style.borderRadius =
-    "5px";
-
-
-  // -------------------------
-  // 授業情報
-  // -------------------------
 
   const titleElement =
-    document.querySelector(
-      ".page-header-headings h1"
-    );
+    document.querySelector(".page-header-headings h1");
 
-  const titleText =
-    titleElement
-      ? titleElement.textContent.trim()
-      : "";
+  if (!titleElement) {
+    return;
+  }
 
   const titleMatch =
-    titleText.match(/^(\d+):(.*)$/);
+    titleElement.textContent.trim().match(/^(\d+):(.*)$/);
 
-  const courseCode =
-    titleMatch
-      ? titleMatch[1]
-      : "";
+  const courseCode = titleMatch ? titleMatch[1] : "";
+  const courseName = titleMatch ? titleMatch[2].trim() : "";
 
-  const courseName =
-    titleMatch
-      ? titleMatch[2].trim()
-      : "";
+  const panel = document.createElement("div");
+  panel.className = "my-syllabus-panel";
+  panel.style.marginTop = "20px";
+  panel.style.padding = "20px";
+  panel.style.border = "1px solid #ddd";
+  panel.style.borderRadius = "5px";
 
+  const heading = document.createElement("h3");
+  heading.textContent = "シラバス情報";
 
-  const heading =
-    document.createElement("h3");
+  const codeLine = document.createElement("p");
+  codeLine.textContent = "授業コード: " + courseCode;
 
-  heading.textContent =
-    "シラバス情報";
+  const nameLine = document.createElement("p");
+  nameLine.textContent = "授業名: " + courseName;
 
+  const openButton = document.createElement("a");
+  openButton.className = "btn btn-primary";
+  openButton.textContent = "シラバスを開く";
+  openButton.href = url;
+  openButton.target = "_blank";
+  openButton.rel = "noopener noreferrer";
 
-  const codeLine =
-    document.createElement("p");
-
-  codeLine.textContent =
-    "授業コード: " +
-    courseCode;
-
-
-  const nameLine =
-    document.createElement("p");
-
-  nameLine.textContent =
-    "授業名: " +
-    courseName;
-
-
-  const openButton =
-    document.createElement("a");
-
-  openButton.className =
-    "btn btn-primary";
-
-  openButton.textContent =
-    "シラバスを開く";
-
-  openButton.href =
-    url;
-
-  openButton.target =
-    "_blank";
-
-  openButton.rel =
-    "noopener noreferrer";
-
+  const detailArea = document.createElement("div");
+  detailArea.className = "my-syllabus-detail";
+  detailArea.style.marginTop = "20px";
 
   panel.appendChild(heading);
   panel.appendChild(codeLine);
   panel.appendChild(nameLine);
   panel.appendChild(openButton);
+  panel.appendChild(detailArea);
 
-
-  const detailArea =
-    document.createElement("div");
-
-  detailArea.className =
-    "my-syllabus-detail";
-
-  detailArea.style.marginTop =
-    "20px";
-
-
-  panel.appendChild(
-    detailArea
-  );
-
-
-  const regionMain =
-    document.querySelector(
-      "#region-main"
-    );
-
-  if (!regionMain) {
-
-    log(
-      "region-mainが見つかりません"
-    );
-
-    return;
-  }
-
-
-  regionMain.appendChild(
-    panel
-  );
-
-
-  // -------------------------
-  // シラバス情報タブ
-  // -------------------------
-
-  link.addEventListener(
-    "click",
-    (event) => {
-
-      event.preventDefault();
-
-
-      regionMain
-        .querySelectorAll(
-          ":scope > *"
-        )
-        .forEach((element) => {
-
-          if (
-            !element.classList.contains(
-              "my-syllabus-panel"
-            )
-          ) {
-
-            element.style.display =
-              "none";
-          }
-        });
-
-
-      panel.style.display =
-        "block";
-
-      link.classList.add(
-        "active"
-      );
-
-
-      loadSyllabusDetail(
-        courseCode
-      );
-    }
-  );
-
-
-  // -------------------------
-  // コースタブ
-  // -------------------------
-
-  const courseLink =
-    navTabs.querySelector(
-      '[data-key="coursehome"] > a'
-    );
-
-  if (courseLink) {
-
-    courseLink.addEventListener(
-      "click",
-      () => {
-
-        regionMain
-          .querySelectorAll(
-            ":scope > *"
-          )
-          .forEach((element) => {
-
-            if (
-              !element.classList.contains(
-                "my-syllabus-panel"
-              )
-            ) {
-
-              element.style.display =
-                "";
-            }
-          });
-
-
-        panel.style.display =
-          "none";
-
-        link.classList.remove(
-          "active"
-        );
-      }
-    );
-  }
-
-
-  log(
-    "シラバス情報タブを追加しました"
-  );
+  // タブの追加は tabs.js に任せる
+  registerCourseTab({
+    id: "syllabus",
+    label: "シラバス情報",
+    order: 10,
+    panel: panel,
+    onShow: () => loadSyllabusDetail(courseCode)
+  });
 }
 
 
@@ -740,6 +507,9 @@ function showSyllabusDetailLoading() {
 
 function displaySyllabusDetailError() {
 
+  syllabusDetailLoading =
+    false;
+
   const area =
     getSyllabusDetailArea();
 
@@ -755,6 +525,9 @@ function displaySyllabusDetailError() {
 function displaySyllabusDetail(
   detail
 ) {
+
+  syllabusDetailLoading =
+    false;
 
   const area =
     getSyllabusDetailArea();
