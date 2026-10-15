@@ -20,10 +20,11 @@
         "https://syllabus.ritsumei.ac.jp/*"
       ],
       "js": [
-        "tabs.js",
-        "content.js",
-        "notifications.js",
-        "calendar.js"
+        "content/common.js",
+        "content/tabs.js",
+        "content/syllabus.js",
+        "content/notifications.js",
+        "content/calendar.js"
       ]
     }
   ]
